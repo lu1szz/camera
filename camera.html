@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #foto {
+            height: 300px;
+            width: 300px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: 50%;
+            margin: 20px;
+        }
+
+        #camera {
+            width: 400px;
+            margin: 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <video id="camera" autoplay></video>
+    <div id="foto"></div>
+    <div class="container">
+    <button onclick="abrirCamera()">Abrir câmera</button>
+    <button onclick="tirarFoto()">Tirar foto</button>
+    <button onclick="fechar()">Fechar câmera</button>
+    </div>
+    <script>
+        var mediaStream;
+
+        function abrirCamera() {
+            navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                })
+                .then(function (stream) {
+                    mediaStream = stream;
+                    const areaVideo = document.getElementById('camera');
+                    areaVideo.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.error('Erro ao acessar a câmera:', error);
+                });
+        }
+
+        function tirarFoto() {
+            const areaVideo = document.getElementById('camera');
+            const canvas = document.createElement('canvas');
+            canvas.width = areaVideo.videoWidth;
+            canvas.height = areaVideo.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(areaVideo, 0, 0, canvas.width,
+                canvas.height);
+
+            // Convertendo a imagem para o formato base 64
+            const imageDataURL = canvas.toDataURL();
+
+            // Armazenando a imagem no background da div
+            const fotoDiv = document.getElementById('foto');
+            fotoDiv.style.backgroundImage = `url(${imageDataURL})`;
+
+            const downloadlink = document.createElement('a');
+
+            downloadlink.href = imageDataURL;
+            downloadlink.download = 'foto.png';
+            downloadlink.textContent = 'Clique para baixar';
+            document.body.appendChild(downloadlink);
+        }
+
+        function fechar() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                const areaVideo = document.getElementById('camera');
+                areaVideo.srcObject = null;
+                mediaStream = null;
+            }
+        }
+    </script>
+</body>
+
+</html>
