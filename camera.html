@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Foto de Perfil</title>
     <style>
-       body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -15,15 +15,18 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            background-color: #f0f0f0;
         }
 
         #foto {
-            height: 300px;
-            width: 300px;
+            height: 200px;
+            width: 200px;
             border-radius: 50%;
             background-size: cover;
             background-position: 50%;
             margin: 20px;
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
         #camera {
@@ -33,28 +36,44 @@
             border-radius: 5px;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: center; /* Alinha os botões ao lado do outro com espaço entre eles */
+            width: 100%;
+        }
+
         button {
             margin: 10px;
             padding: 10px;
             font-size: 16px;
-            
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        h1 {
+            color: #333;
         }
     </style>
 </head>
 
 <body>
+    <h1>Tire Sua Foto de Perfil</h1>
     <video id="camera" autoplay></video>
     <div id="foto"></div>
-    <div class="container">
-    <button onclick="abrirCamera()">Abrir câmera</button>
-    <button onclick="tirarFoto()">Tirar foto</button>
-    <button onclick="fechar()">Fechar câmera</button>
+    <div class="button-container">
+        <button onclick="abrirCamera()">Abrir câmera</button>
+        <button onclick="tirarFoto()">Tirar foto</button>
+        <button onclick="fechar()">Fechar câmera</button>
     </div>
+
     <script>
         var mediaStream;
 
